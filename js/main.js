@@ -9,7 +9,7 @@ var ToDoItem = (function () {
     return ToDoItem;
 }());
 window.onload = function () {
-    var add = document.getElementById("add");
+    var add = getInput("add");
     add.onclick = process;
 };
 function process() {
@@ -33,6 +33,7 @@ function displayToDoItem(item) {
     var itemDate = document.createElement("p");
     itemDate.innerText = item.dueDate.toISOString().split('T')[0];
     var itemDiv = document.createElement("div");
+    itemDiv.onclick = markAsComplete;
     itemDiv.classList.add("todo");
     if (item.isCompleted) {
         itemDiv.classList.add("completed");
@@ -50,4 +51,10 @@ function displayToDoItem(item) {
 }
 function getInput(id) {
     return document.getElementById(id);
+}
+function markAsComplete() {
+    var itemDiv = this;
+    itemDiv.classList.add("completed");
+    var completeItems = document.getElementById("complete");
+    completeItems.appendChild(itemDiv);
 }

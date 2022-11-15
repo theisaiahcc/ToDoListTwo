@@ -16,7 +16,7 @@ class ToDoItem{
 
 // let item = new ToDoItem("testing", new Date(2023, 6, 1), false);
 window.onload = function(){
-    let add = <HTMLInputElement>document.getElementById("add");
+    let add = getInput("add");
     add.onclick = process;
 }
 
@@ -48,6 +48,7 @@ function displayToDoItem(item:ToDoItem):void{
 
 
     let itemDiv = document.createElement("div");
+    itemDiv.onclick = markAsComplete;
     itemDiv.classList.add("todo");
     if(item.isCompleted){
         itemDiv.classList.add("completed");
@@ -67,4 +68,15 @@ function displayToDoItem(item:ToDoItem):void{
 
 function getInput(id:string):HTMLInputElement{
     return (<HTMLInputElement>document.getElementById(id))
+}
+
+function markAsComplete(){
+    let itemDiv = <HTMLElement>this;
+
+    itemDiv.classList.add("completed");
+
+    let completeItems = document.getElementById("complete");
+    completeItems.appendChild(itemDiv);
+    
+
 }
