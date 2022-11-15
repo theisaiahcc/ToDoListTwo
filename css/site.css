@@ -1,0 +1,20 @@
+.todo{
+    width:25%;
+    box-sizing: border-box;
+    background-color: beige;
+    border-radius: .75em;
+    padding-left: 1%;
+}
+
+.todo h3{
+    margin: 0;
+}
+
+.todo body{
+    margin: 0;
+}
+
+.completed{
+    opacity: 65%;
+    background-color: gray;
+}
