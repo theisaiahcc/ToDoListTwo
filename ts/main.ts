@@ -72,11 +72,10 @@ function getInput(id:string):HTMLInputElement{
 
 function markAsComplete(){
     let itemDiv = <HTMLElement>this;
-
-    itemDiv.classList.add("completed");
-
-    let completeItems = document.getElementById("complete");
-    completeItems.appendChild(itemDiv);
+    if(!itemDiv.classList.contains("completed")){
+        itemDiv.classList.add("completed");
     
-
+        let completeItems = document.getElementById("complete");
+        completeItems.appendChild(itemDiv);
+    }
 }

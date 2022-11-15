@@ -54,7 +54,9 @@ function getInput(id) {
 }
 function markAsComplete() {
     var itemDiv = this;
-    itemDiv.classList.add("completed");
-    var completeItems = document.getElementById("complete");
-    completeItems.appendChild(itemDiv);
+    if (!itemDiv.classList.contains("completed")) {
+        itemDiv.classList.add("completed");
+        var completeItems = document.getElementById("complete");
+        completeItems.appendChild(itemDiv);
+    }
 }
