@@ -17,15 +17,15 @@
     <input type="date" id="due-date" />
     <span>*</span>
     <br>
-    <input type="checkbox">
+    <input id="completed" type="checkbox">
     <label for="is-complete">Completed?</label>
     <br>
 
-    <input type="button" value="Add ToDo Item">
+    <input type="button" id="add" value="Add ToDo Item">
+    <script src="js/main.js"></script>
 
+    <h2>To-Do Items:</h2>
+    <div id="incomplete"></div>
+    <div id="complete"></div>
 </body>
-
-<script>
-    document.getElementById("due-date").min = new Date().toLocaleDateString('en-ca')
-</script>
 </html>
