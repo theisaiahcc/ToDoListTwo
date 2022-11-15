@@ -14,7 +14,7 @@
     <span>*</span>
     <br>
     <label for="due-date">Due Date:</label>
-    <input type="text" id="due-date">
+    <input type="date" id="due-date" />
     <span>*</span>
     <br>
     <input type="checkbox">
@@ -24,4 +24,8 @@
     <input type="button" value="Add ToDo Item">
 
 </body>
+
+<script>
+    document.getElementById("due-date").min = new Date().toLocaleDateString('en-ca')
+</script>
 </html>
