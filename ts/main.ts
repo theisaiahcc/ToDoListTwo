@@ -17,13 +17,16 @@ class ToDoItem{
 // let item = new ToDoItem("testing", new Date(2023, 6, 1), false);
 window.onload = function(){
     let add = getInput("add");
-    add.onclick = process;
+    add.onclick = main;
+
+    loadSavedItem();
 }
 
-function process():void{
+function main():void{
     if(isValid()){
         let item = getToDoItem();
         displayToDoItem(item);
+        saveToDo(item);
     }
 }
 
@@ -44,8 +47,9 @@ function displayToDoItem(item:ToDoItem):void{
     itemText.innerText = item.title;
 
     let itemDate = document.createElement("p");
-    itemDate.innerText = item.dueDate.toISOString().split('T')[0];
-
+    // itemDate.innerText = item.dueDate.toISOString().split('T')[0];
+    let dueDate = new Date(item.dueDate.toString());
+    itemDate.innerText = dueDate.toDateString();
 
     let itemDiv = document.createElement("div");
     itemDiv.onclick = markAsComplete;
@@ -77,5 +81,29 @@ function markAsComplete(){
     
         let completeItems = document.getElementById("complete");
         completeItems.appendChild(itemDiv);
+    }
+}
+
+const todokey = "todo"
+
+function saveToDo(item:ToDoItem):void{
+    // convert ToDoItem into JSON string
+    let itemString = JSON.stringify(item);
+    localStorage.setItem(todokey, itemString)
+}
+
+/**
+ * @returns Stored todo item or NULL if not found
+ */
+function getToDo():ToDoItem{
+    let itemString = localStorage.getItem(todokey)
+    let item:ToDoItem = JSON.parse(itemString);
+    return item;
+}
+
+function loadSavedItem() {
+    let item = getToDo();
+    if (item != null){
+        displayToDoItem(item);
     }
 }
