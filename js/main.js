@@ -11,7 +11,7 @@ var ToDoItem = (function () {
 window.onload = function () {
     var add = getInput("add");
     add.onclick = main;
-    loadSavedItem();
+    loadSavedItems();
 };
 function main() {
     if (isValid()) {
@@ -56,6 +56,7 @@ function getInput(id) {
     return document.getElementById(id);
 }
 function markAsComplete() {
+    this.isCompleted = true;
     var itemDiv = this;
     if (!itemDiv.classList.contains("completed")) {
         itemDiv.classList.add("completed");
@@ -65,17 +66,24 @@ function markAsComplete() {
 }
 var todokey = "todo";
 function saveToDo(item) {
-    var itemString = JSON.stringify(item);
-    localStorage.setItem(todokey, itemString);
-}
-function getToDo() {
-    var itemString = localStorage.getItem(todokey);
-    var item = JSON.parse(itemString);
-    return item;
-}
-function loadSavedItem() {
-    var item = getToDo();
-    if (item != null) {
-        displayToDoItem(item);
+    var currItems = getToDos();
+    if (currItems == null) {
+        currItems = new Array();
     }
+    currItems.push(item);
+    var currItemsString = JSON.stringify(currItems);
+    localStorage.setItem(todokey, currItemsString);
+}
+function loadSavedItems() {
+    var items = getToDos();
+    if (items != null) {
+        for (var i = 0; i < items.length; i++) {
+            displayToDoItem(items[i]);
+        }
+    }
+}
+function getToDos() {
+    var itemString = localStorage.getItem(todokey);
+    var items = JSON.parse(itemString);
+    return items;
 }
