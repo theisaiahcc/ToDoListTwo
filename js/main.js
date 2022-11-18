@@ -48,7 +48,7 @@ function displayToDoItem(item) {
     var itemText = document.createElement("h3");
     itemText.innerText = item.title;
     var itemDate = document.createElement("p");
-    var dueDate = new Date(item.dueDate.toString());
+    var dueDate = new Date(item.dueDate.toString().replace(/-/g, '\/').replace(/T.+/, ''));
     itemDate.innerText = dueDate.toDateString();
     var itemDiv = document.createElement("div");
     itemDiv.onclick = markAsComplete;

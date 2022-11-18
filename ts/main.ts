@@ -64,8 +64,10 @@ function displayToDoItem(item:ToDoItem):void{
     itemText.innerText = item.title;
 
     let itemDate = document.createElement("p");
-    // itemDate.innerText = item.dueDate.toISOString().split('T')[0];
-    let dueDate = new Date(item.dueDate.toString());
+    // date parsing from string has strange unpredictable behaviors
+    // to see why the following code is necessary view this stackoverflow post
+    // https://stackoverflow.com/questions/7556591/is-the-javascript-date-object-always-one-day-off
+    let dueDate = new Date (item.dueDate.toString().replace(/-/g, '\/').replace(/T.+/, '')); 
     itemDate.innerText = dueDate.toDateString();
 
     let itemDiv = document.createElement("div");
