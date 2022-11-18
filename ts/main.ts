@@ -27,8 +27,8 @@ function main():void{
         let item = getToDoItem();
         displayToDoItem(item);
         saveToDo(item);
+        resetInputs();
     }
-    resetInputs();
 }
 
 function isValid():boolean{
@@ -76,21 +76,29 @@ function getToDoItem():ToDoItem{
 function displayToDoItem(item:ToDoItem):void{
     let itemText = document.createElement("h3");
     itemText.innerText = item.title;
+    itemText.onclick = markAsComplete;
 
     let itemDate = document.createElement("p");
     console.log(item.dueDate);
+
     let dueDate = new Date (item.dueDate.toString()); 
     itemDate.innerText = dueDate.toDateString();
 
+    let exitSpan = document.createElement("span");
+    exitSpan.onclick = deleteToDo;
+    exitSpan.innerText = "x";
+
     let itemDiv = document.createElement("div");
-    itemDiv.onclick = markAsComplete;
+    
     itemDiv.classList.add("todo");
     if(item.isCompleted){
         itemDiv.classList.add("completed");
     }
-
+    // itemText.appendChild(exitSpan);
     itemDiv.appendChild(itemText);
     itemDiv.appendChild(itemDate);
+    itemDiv.appendChild(exitSpan);
+    
     if(item.isCompleted){
         let complete = document.getElementById("complete");
         complete.appendChild(itemDiv);
@@ -106,7 +114,7 @@ function getInput(id:string):HTMLInputElement{
 }
 
 function markAsComplete(){
-    let itemDiv = <HTMLElement>this;
+    let itemDiv = <HTMLElement>this.parentNode;
     if(!itemDiv.classList.contains("completed")){
         itemDiv.classList.add("completed");
     
@@ -116,7 +124,7 @@ function markAsComplete(){
     let items = getToDos();
     if (items != null){
         for(let i = 0; i < items.length; i++){
-            if(this.querySelector("h3").innerText == items[i].title){
+            if(this.innerText == items[i].title){
                 let updatedItem = items[i];
                 updatedItem.isCompleted = true;
                 items.splice(i, 1);
@@ -178,3 +186,19 @@ function resetInputs() {
     (<HTMLInputElement>document.getElementById("title")).value = "";
     (<HTMLInputElement>document.getElementById("due-date")).value = "";
 }
+
+function deleteToDo() {
+    let itemDiv = this.parentNode;
+    itemDiv.remove();
+
+    let items = getToDos();
+    for(let i = 0; i < items.length; i++){
+        if (itemDiv.querySelector("h3").innerText == items[i].title){
+            items.splice(i, 1);
+            localStorage.clear();
+            let itemsString = JSON.stringify(items);
+            localStorage.setItem(todokey, itemsString);
+        }
+    }
+}
+

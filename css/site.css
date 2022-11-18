@@ -1,18 +1,53 @@
 .todo{
     width:25%;
     box-sizing: border-box;
-    background-color: beige;
+    background-color:rgb(240, 240, 176);
     border-radius: .75em;
     padding-left: 1%;
-    cursor: pointer;
+    position: relative;
+    padding-left: 10px;
 }
 
 .todo h3{
-    margin: 0;
+    padding-left: 5px;
+    cursor: pointer;
+    background-color:orange;
+    border-top-right-radius: .25em;
+}
+
+.todo h3:hover{
+    background-color: orangered;
 }
 
 .todo body{
     margin: 0;
+}
+
+.todo span{
+    font-size: x-large;
+    text-align: center;
+    height: 25px;
+    width: 15px;
+    cursor:pointer;
+    position: absolute;
+    top: 31px;
+    right: 16px;
+    color: black;
+}
+
+.todo span:hover{
+    background-color: red;
+    
+}
+.completed h3{
+    margin: 0;
+    background-color:gray;
+    border-top-right-radius: .25em;
+    cursor: auto;
+}
+
+.completed h3:hover{
+    background-color: gray;
 }
 
 .completed{
