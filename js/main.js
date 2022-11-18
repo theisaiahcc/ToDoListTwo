@@ -40,7 +40,7 @@ function isValid() {
 }
 function getToDoItem() {
     var title = getInput("title").value;
-    var dueDate = new Date(getInput("due-date").value);
+    var dueDate = new Date(getInput("due-date").value.replace(/-/g, '\/').replace(/T.+/, ''));
     var completed = getInput("completed").checked;
     return new ToDoItem(title, dueDate, completed);
 }
@@ -48,7 +48,8 @@ function displayToDoItem(item) {
     var itemText = document.createElement("h3");
     itemText.innerText = item.title;
     var itemDate = document.createElement("p");
-    var dueDate = new Date(item.dueDate.toString().replace(/-/g, '\/').replace(/T.+/, ''));
+    console.log(item.dueDate);
+    var dueDate = new Date(item.dueDate.toString());
     itemDate.innerText = dueDate.toDateString();
     var itemDiv = document.createElement("div");
     itemDiv.onclick = markAsComplete;
@@ -106,6 +107,7 @@ function loadSavedItems() {
     var items = getToDos();
     if (items != null) {
         for (var i = 0; i < items.length; i++) {
+            items[i].dueDate = new Date(items[i].dueDate.toString().replace(/-/g, '\/').replace(/T.+/, ''));
             displayToDoItem(items[i]);
         }
     }

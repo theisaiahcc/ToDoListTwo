@@ -53,7 +53,7 @@ function isValid():boolean{
 
 function getToDoItem():ToDoItem{
     let title = getInput("title").value;
-    let dueDate = new Date(getInput("due-date").value);
+    let dueDate = new Date(getInput("due-date").value.replace(/-/g, '\/').replace(/T.+/, ''));
     let completed = getInput("completed").checked;
 
     return new ToDoItem(title, dueDate, completed)
@@ -64,10 +64,8 @@ function displayToDoItem(item:ToDoItem):void{
     itemText.innerText = item.title;
 
     let itemDate = document.createElement("p");
-    // date parsing from string has strange unpredictable behaviors
-    // to see why the following code is necessary view this stackoverflow post
-    // https://stackoverflow.com/questions/7556591/is-the-javascript-date-object-always-one-day-off
-    let dueDate = new Date (item.dueDate.toString().replace(/-/g, '\/').replace(/T.+/, '')); 
+    console.log(item.dueDate);
+    let dueDate = new Date (item.dueDate.toString()); 
     itemDate.innerText = dueDate.toDateString();
 
     let itemDiv = document.createElement("div");
@@ -135,6 +133,9 @@ function loadSavedItems() {
     let items = getToDos();
     if (items != null){
         for(let i = 0; i < items.length; i++){
+            // to see why the following code is necessary view this stackoverflow post
+            // https://stackoverflow.com/questions/7556591/is-the-javascript-date-object-always-one-day-off
+            items[i].dueDate = new Date (items[i].dueDate.toString().replace(/-/g, '\/').replace(/T.+/, ''))
             displayToDoItem(items[i]);
         }
     }
