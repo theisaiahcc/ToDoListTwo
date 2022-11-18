@@ -23,6 +23,7 @@ window.onload = function(){
 }
 
 function main():void{
+    //resetInputs();
     resetSpans();
     if(isValid()){
         let item = getToDoItem();
@@ -32,15 +33,29 @@ function main():void{
 }
 
 function isValid():boolean{
+    let items = getToDos();
     let title = getInput("title").value;
     let dueDate = new Date(getInput("due-date").value);
+    let titleError = document.getElementById("title-error")
     if(title.replace(/\s/g, '') == ""){
-        let titleError = document.getElementById("title-error")
+        
         titleError.innerText = "Title can't be empty.";
         titleError.classList.add("error");
 
         return false;
     }
+
+    if(items != null){
+        for(let i = 0; i < items.length; i++){
+            if (items[i].title == title){
+                titleError.innerText = "Title must be unique."
+                titleError.classList.add("error");
+                return false;
+            }
+        }
+    }
+    
+
     if(isNaN(Date.parse(dueDate.toString()))){
         let dateError = document.getElementById("date-error")
         dateError.innerText = "Invalid date.";
@@ -158,4 +173,8 @@ function resetSpans() {
     let dateError = document.getElementById("date-error")
         dateError.innerText = "*";
         dateError.classList.remove("error");
+}
+
+function resetInputs() {
+    throw new Error("Function not implemented.");
 }

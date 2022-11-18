@@ -22,13 +22,23 @@ function main() {
     }
 }
 function isValid() {
+    var items = getToDos();
     var title = getInput("title").value;
     var dueDate = new Date(getInput("due-date").value);
+    var titleError = document.getElementById("title-error");
     if (title.replace(/\s/g, '') == "") {
-        var titleError = document.getElementById("title-error");
         titleError.innerText = "Title can't be empty.";
         titleError.classList.add("error");
         return false;
+    }
+    if (items != null) {
+        for (var i = 0; i < items.length; i++) {
+            if (items[i].title == title) {
+                titleError.innerText = "Title must be unique.";
+                titleError.classList.add("error");
+                return false;
+            }
+        }
     }
     if (isNaN(Date.parse(dueDate.toString()))) {
         var dateError = document.getElementById("date-error");
@@ -124,4 +134,7 @@ function resetSpans() {
     var dateError = document.getElementById("date-error");
     dateError.innerText = "*";
     dateError.classList.remove("error");
+}
+function resetInputs() {
+    throw new Error("Function not implemented.");
 }
