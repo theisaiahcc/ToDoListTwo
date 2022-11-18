@@ -75,7 +75,6 @@ function getInput(id:string):HTMLInputElement{
 }
 
 function markAsComplete(){
-    this.isCompleted = true;
     let itemDiv = <HTMLElement>this;
     if(!itemDiv.classList.contains("completed")){
         itemDiv.classList.add("completed");

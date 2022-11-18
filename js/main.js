@@ -56,7 +56,6 @@ function getInput(id) {
     return document.getElementById(id);
 }
 function markAsComplete() {
-    this.isCompleted = true;
     var itemDiv = this;
     if (!itemDiv.classList.contains("completed")) {
         itemDiv.classList.add("completed");
