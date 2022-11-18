@@ -6,6 +6,7 @@
     padding-left: 1%;
     position: relative;
     padding-left: 10px;
+    min-width: 155px;
 }
 
 .todo h3{
