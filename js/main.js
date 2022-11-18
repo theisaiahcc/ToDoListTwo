@@ -20,6 +20,7 @@ function main() {
         displayToDoItem(item);
         saveToDo(item);
     }
+    resetInputs();
 }
 function isValid() {
     var items = getToDos();
@@ -136,5 +137,6 @@ function resetSpans() {
     dateError.classList.remove("error");
 }
 function resetInputs() {
-    throw new Error("Function not implemented.");
+    document.getElementById("title").value = "";
+    document.getElementById("due-date").value = "";
 }

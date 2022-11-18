@@ -14,7 +14,6 @@ class ToDoItem{
     }
 }
 
-// let item = new ToDoItem("testing", new Date(2023, 6, 1), false);
 window.onload = function(){
     let add = getInput("add");
     add.onclick = main;
@@ -23,13 +22,13 @@ window.onload = function(){
 }
 
 function main():void{
-    //resetInputs();
     resetSpans();
     if(isValid()){
         let item = getToDoItem();
         displayToDoItem(item);
         saveToDo(item);
     }
+    resetInputs();
 }
 
 function isValid():boolean{
@@ -176,5 +175,6 @@ function resetSpans() {
 }
 
 function resetInputs() {
-    throw new Error("Function not implemented.");
+    (<HTMLInputElement>document.getElementById("title")).value = "";
+    (<HTMLInputElement>document.getElementById("due-date")).value = "";
 }
