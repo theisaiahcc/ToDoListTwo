@@ -23,6 +23,7 @@ window.onload = function(){
 }
 
 function main():void{
+    resetSpans();
     if(isValid()){
         let item = getToDoItem();
         displayToDoItem(item);
@@ -31,6 +32,22 @@ function main():void{
 }
 
 function isValid():boolean{
+    let title = getInput("title").value;
+    let dueDate = new Date(getInput("due-date").value);
+    if(title.replace(/\s/g, '') == ""){
+        let titleError = document.getElementById("title-error")
+        titleError.innerText = "Title can't be empty.";
+        titleError.classList.add("error");
+
+        return false;
+    }
+    if(isNaN(Date.parse(dueDate.toString()))){
+        let dateError = document.getElementById("date-error")
+        dateError.innerText = "Invalid date.";
+        dateError.classList.add("error");
+        return false;
+
+    }
     return true;
 }
 
@@ -82,6 +99,21 @@ function markAsComplete(){
         let completeItems = document.getElementById("complete");
         completeItems.appendChild(itemDiv);
     }
+    let items = getToDos();
+    if (items != null){
+        for(let i = 0; i < items.length; i++){
+            if(this.querySelector("h3").innerText == items[i].title){
+                let updatedItem = items[i];
+                updatedItem.isCompleted = true;
+                items.splice(i, 1);
+                items.push(updatedItem)
+                // delete storage and reupload
+                localStorage.clear();
+                let itemsString = JSON.stringify(items);
+                localStorage.setItem(todokey, itemsString);
+            }
+        }
+    }
 }
 
 const todokey = "todo"
@@ -112,5 +144,15 @@ function loadSavedItems() {
 function getToDos():ToDoItem[]{
     let itemString = localStorage.getItem(todokey)
     let items:ToDoItem[] = JSON.parse(itemString);
+    // console.log(items);
     return items;
+}
+function resetSpans() {
+    let titleError = document.getElementById("title-error")
+    titleError.innerText = "*";
+    titleError.classList.remove("error");
+
+    let dateError = document.getElementById("date-error")
+        dateError.innerText = "*";
+        dateError.classList.remove("error");
 }

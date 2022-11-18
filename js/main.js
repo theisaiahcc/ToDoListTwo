@@ -14,6 +14,7 @@ window.onload = function () {
     loadSavedItems();
 };
 function main() {
+    resetSpans();
     if (isValid()) {
         var item = getToDoItem();
         displayToDoItem(item);
@@ -21,6 +22,20 @@ function main() {
     }
 }
 function isValid() {
+    var title = getInput("title").value;
+    var dueDate = new Date(getInput("due-date").value);
+    if (title.replace(/\s/g, '') == "") {
+        var titleError = document.getElementById("title-error");
+        titleError.innerText = "Title can't be empty.";
+        titleError.classList.add("error");
+        return false;
+    }
+    if (isNaN(Date.parse(dueDate.toString()))) {
+        var dateError = document.getElementById("date-error");
+        dateError.innerText = "Invalid date.";
+        dateError.classList.add("error");
+        return false;
+    }
     return true;
 }
 function getToDoItem() {
@@ -62,6 +77,20 @@ function markAsComplete() {
         var completeItems = document.getElementById("complete");
         completeItems.appendChild(itemDiv);
     }
+    var items = getToDos();
+    if (items != null) {
+        for (var i = 0; i < items.length; i++) {
+            if (this.querySelector("h3").innerText == items[i].title) {
+                var updatedItem = items[i];
+                updatedItem.isCompleted = true;
+                items.splice(i, 1);
+                items.push(updatedItem);
+                localStorage.clear();
+                var itemsString = JSON.stringify(items);
+                localStorage.setItem(todokey, itemsString);
+            }
+        }
+    }
 }
 var todokey = "todo";
 function saveToDo(item) {
@@ -85,4 +114,12 @@ function getToDos() {
     var itemString = localStorage.getItem(todokey);
     var items = JSON.parse(itemString);
     return items;
+}
+function resetSpans() {
+    var titleError = document.getElementById("title-error");
+    titleError.innerText = "*";
+    titleError.classList.remove("error");
+    var dateError = document.getElementById("date-error");
+    dateError.innerText = "*";
+    dateError.classList.remove("error");
 }
